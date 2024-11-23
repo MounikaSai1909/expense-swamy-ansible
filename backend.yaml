@@ -2,6 +2,12 @@
   hosts: backend
   become: yes
   vars:
+    login_host: db.swamy.fun
+  vars_prompt:
+     name: mysql_root_password
+     prompt: please enter MySQL root password
+     private: no
+
 
   tasks:
   - name: disable default node-js
@@ -45,3 +51,17 @@
       src: backend.service
       dest: /etc/systemd/system/backend.service
 
+  - name: install python mysql dependencies
+    ansible.builtin.pip:
+       name:
+       - PyMySQL
+       - cryptography
+       executable: pip3.9
+   
+  - name: import data into mysql
+    community.mysql.mysql_db:
+       login_host: "{{ login_host }}"
+       login_user: root
+       login_password: "{{mysql_root_password}}"
+       target: /app/schema/backend.sql
+       state: dump
