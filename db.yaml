@@ -1,0 +1,27 @@
+- name: confifure db server
+  hosts: localhost
+  become: yes
+  vars:
+    login_host: db.swamy.fun
+  tasks: 
+  - name: install mysql service
+    ansible.builtin.dnf:
+      name: mysql-server
+      state: latest
+
+  - name: start and enable mysql service
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
+
+
+# check password is already setup or not
+  - name: check db connection
+    community.mysql.mysql_info:
+       login_user: "{{ login_host }}"
+       login_user: root
+       login_password: ExpenseApp@1
+       filter: version
+    ignore_errors: yes
+
