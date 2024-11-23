@@ -1,5 +1,5 @@
 - name: confifure db server
-  hosts: localhost
+  hosts: db
   become: yes
   vars:
     login_host: db.swamy.fun
