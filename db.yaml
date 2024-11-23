@@ -24,4 +24,5 @@
        login_password: ExpenseApp@1
        filter: version
     ignore_errors: yes
+    register: mysql_connection_output
 
